@@ -40,17 +40,17 @@ public class LogbackConsumerMessageDispatcher {
 	@PostConstruct
 	public synchronized void init() {
 		if (worker != null) {
-            return;
-        }
+			return;
+		}
 
-        worker = Executors.newFixedThreadPool(concurrency,
+		worker = Executors.newFixedThreadPool(concurrency,
 			new ThreadFactoryBuilder().setNameFormat("logback-consumer-worker-%d").build());
 
 		final MessageListener<String, String> loggingMessageListener = message ->
 				log.info("<<consume kafka-message>>: topic={}, partition={}, offset={}, message=(key={}, value={})",
 					message.topic(), message.partition(), message.offset(), message.key(), message.message());
 
-        final TopicFilter filter = new Whitelist("study-kafka*");
+		final TopicFilter filter = new Whitelist("study-kafka*");
 		final Decoder<String> keyDecoder = new StringDecoder(null);
 		final Decoder<String> valueDecoder = new StringDecoder(null);
 
@@ -61,7 +61,7 @@ public class LogbackConsumerMessageDispatcher {
 			for (MessageAndMetadata<String, String> message : stream) {
 				try {
 					if (Objects.isNull(message)) {
-                        log.info("consumed message was (null).");
+						log.info("consumed message was (null).");
 						continue;
 					}
 					loggingMessageListener.accept(message);
