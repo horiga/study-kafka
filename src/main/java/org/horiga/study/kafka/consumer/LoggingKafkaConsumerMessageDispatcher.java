@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class LogbackConsumerMessageDispatcher {
+public class LoggingKafkaConsumerMessageDispatcher {
 
 	private ExecutorService worker;
 
@@ -46,7 +46,7 @@ public class LogbackConsumerMessageDispatcher {
 		worker = Executors.newFixedThreadPool(concurrency,
 			new ThreadFactoryBuilder().setNameFormat("logback-consumer-worker-%d").build());
 
-		final MessageListener<String, String> loggingMessageListener = message ->
+		final KafkaMessageListener<String, String> loggingMessageListener = message ->
 				log.info("<<consume kafka-message>>: topic={}, partition={}, offset={}, message=(key={}, value={})",
 					message.topic(), message.partition(), message.offset(), message.key(), message.message());
 

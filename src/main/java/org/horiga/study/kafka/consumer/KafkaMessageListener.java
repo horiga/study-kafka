@@ -4,5 +4,5 @@ import kafka.message.MessageAndMetadata;
 
 import java.util.function.Consumer;
 
-public interface MessageListener<K, V> extends Consumer<MessageAndMetadata<K, V>> {
+public interface KafkaMessageListener<K, V> extends Consumer<MessageAndMetadata<K, V>> {
 }

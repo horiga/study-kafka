@@ -29,8 +29,6 @@ public class KafkaConsumerConfig {
 		props.put("enable.auto.commit", "true");
 		props.put("auto.commit.interval.ms", "3000"); // 3s
 
-		props.put("client.id", "study-kafka");
-
 		ConsumerConfig config = new ConsumerConfig(props);
 
 		return config;
