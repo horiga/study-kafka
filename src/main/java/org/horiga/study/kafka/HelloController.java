@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class HelloController {
 
+	@RequestMapping({"", "/", "/hello"})
+	public String hello(
+			@RequestParam(name = "message", required = false, defaultValue = "hello") String message) {
 
-    @RequestMapping({"", "/", "/hello"})
-    public String hello(
-            @RequestParam(name="message", required = false, defaultValue = "hello") String message) {
-
-        return "hello";
-    }
+		return "Hello, " + message;
+	}
 }

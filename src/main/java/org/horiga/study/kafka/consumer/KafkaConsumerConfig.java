@@ -1,11 +1,12 @@
 package org.horiga.study.kafka.consumer;
 
-import kafka.consumer.ConsumerConfig;
-import kafka.javaapi.consumer.ConsumerConnector;
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Properties;
+import kafka.consumer.ConsumerConfig;
+import kafka.javaapi.consumer.ConsumerConnector;
 
 @Configuration
 public class KafkaConsumerConfig {
@@ -17,7 +18,8 @@ public class KafkaConsumerConfig {
 		// > 3.3.2 - New Consumer configs. since `0.9.0.0`
 
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "localhost:19092,localhost:29092,localhost:39092"); // string
+		//props.put("bootstrap.servers", "localhost:19092,localhost:29092,localhost:39092"); // string
+		props.put("bootstrap.servers", "localhost:9092");
 		//props.put("zookeeper.connect", "localhost:2181");
 		props.put("group.id", "study-kafka.consumer-group"); // string
 		//props.put("key.deserializer", ""); // class
