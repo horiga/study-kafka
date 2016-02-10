@@ -20,7 +20,7 @@ public class KafkaConsumerConfig {
 		Properties props = new Properties();
 		//props.put("bootstrap.servers", "localhost:19092,localhost:29092,localhost:39092"); // string
 		props.put("bootstrap.servers", "localhost:9092");
-		//props.put("zookeeper.connect", "localhost:2181");
+		props.put("zookeeper.connect", "localhost:2181");
 		props.put("group.id", "study-kafka.consumer-group"); // string
 		//props.put("key.deserializer", ""); // class
 		//props.put("value.deserializer", ""); // class

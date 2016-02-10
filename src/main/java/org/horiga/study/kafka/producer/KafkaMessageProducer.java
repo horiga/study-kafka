@@ -18,7 +18,7 @@ public class KafkaMessageProducer {
 	@Autowired
 	KafkaProducer<String, String> kafkaProducer;
 
-	@Value("${app.kafka.producer.numOfPartition:2}")
+	@Value("${app.kafka.producer.numOfPartition:1}")
 	private int numOfPartition;
 
 	@Value("${app.kafka.topic:study-kafka}")
@@ -44,9 +44,7 @@ public class KafkaMessageProducer {
 	}
 
 	public void publish(String message) {
-		final String key = "study-kafka-" + System.currentTimeMillis();
-		final String value = message;
-		kafkaProducer.send(new ProducerRecord<>(topic, numOfPartition, key, value), new MessageCallback(message));
+		kafkaProducer.send(new ProducerRecord<>(topic, message), new MessageCallback(message));
 	}
 
 }
