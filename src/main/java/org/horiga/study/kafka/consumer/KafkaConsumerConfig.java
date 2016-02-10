@@ -34,8 +34,15 @@ public class KafkaConsumerConfig {
 		return config;
 	}
 
-	@Bean
+	@Bean(name="consumer.study-kafka")
 	public ConsumerConnector consumerConnector(ConsumerConfig config) {
+		kafka.javaapi.consumer.ConsumerConnector connector =
+				kafka.consumer.Consumer.createJavaConsumerConnector(config);
+		return connector;
+	}
+
+	@Bean(name="consumer.kafka-partitions")
+	public ConsumerConnector consumerConnector_partitions(ConsumerConfig config) {
 		kafka.javaapi.consumer.ConsumerConnector connector =
 				kafka.consumer.Consumer.createJavaConsumerConnector(config);
 		return connector;

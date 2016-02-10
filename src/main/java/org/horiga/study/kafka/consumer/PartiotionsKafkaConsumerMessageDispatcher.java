@@ -1,22 +1,6 @@
 package org.horiga.study.kafka.consumer;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import kafka.consumer.KafkaStream;
 import kafka.consumer.TopicFilter;
 import kafka.consumer.Whitelist;
@@ -25,18 +9,28 @@ import kafka.message.MessageAndMetadata;
 import kafka.serializer.Decoder;
 import kafka.serializer.StringDecoder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Component
 @Slf4j
-public class LoggingKafkaConsumerMessageDispatcher {
+public class PartiotionsKafkaConsumerMessageDispatcher {
 
 	private ExecutorService worker;
 
 	@Autowired
-	@Qualifier("consumer.study-kafka")
+	@Qualifier("consumer.kafka-partitions")
 	private ConsumerConnector consumerConnector;
 
-	@Value("${app.kafka.consumer.concurrency.num:1}")
+	@Value("${app.kafka.consumer.partitions.concurrency.num:3}")
 	private int concurrency;
 
 	@PostConstruct
@@ -46,13 +40,13 @@ public class LoggingKafkaConsumerMessageDispatcher {
 		}
 
 		worker = Executors.newFixedThreadPool(concurrency,
-			new ThreadFactoryBuilder().setNameFormat("logback-consumer-worker-%d").build());
+			new ThreadFactoryBuilder().setNameFormat("kafka-partitions-consumer-worker-%d").build());
 
 		final KafkaMessageListener<String, String> loggingMessageListener = message ->
-				log.info("<<consume kafka-message>>: topic={}, partition={}, offset={}, message=(key={}, value={})",
+				log.info("<<consume kafka-message:withPartitions>>: topic={}, partition={}, offset={}, message=(key={}, value={})",
 					message.topic(), message.partition(), message.offset(), message.key(), message.message());
 
-		final TopicFilter filter = new Whitelist("study-kafka*");
+		final TopicFilter filter = new Whitelist("kafka-partitions*");
 		final Decoder<String> keyDecoder = new StringDecoder(null);
 		final Decoder<String> valueDecoder = new StringDecoder(null);
 
@@ -72,11 +66,5 @@ public class LoggingKafkaConsumerMessageDispatcher {
 				}
 			}
 		}));
-	}
-
-	@PreDestroy
-	public void shutdown() {
-		MoreExecutors.shutdownAndAwaitTermination(worker, 5000, TimeUnit.MILLISECONDS);
-		consumerConnector.shutdown();
 	}
 }
