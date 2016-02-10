@@ -30,3 +30,25 @@ Created topic "study-kafka".
 $ bin/kafka-topics.sh --list --zookeeper localhost:2181
 study-kafka
 ```
+
+### test
+
+* test command
+
+```bash
+$ curl -iks http://localhost:8080/hello\?message\=horiga
+$ curl -iks http://localhost:8080/hello\?message\=hoge
+$ curl -iks http://localhost:8080/hello\?message\=fuga
+```
+
+```bash
+[nio-8080-exec-1] org.horiga.study.kafka.HelloController   : Receiving message: horiga
+[ad | producer-1] o.h.s.k.producer.KafkaMessageProducer    : Published message(horiga). topic=study-kafka, partition=0, offset=1
+[nsumer-worker-0] .c.LoggingKafkaConsumerMessageDispatcher : <<consume kafka-message>>: topic=study-kafka, partition=0, offset=1, message=(key=study-kafka.1455117565063, value=horiga)
+[nio-8080-exec-3] org.horiga.study.kafka.HelloController   : Receiving message: hoge
+[ad | producer-1] o.h.s.k.producer.KafkaMessageProducer    : Published message(hoge). topic=study-kafka, partition=0, offset=2
+[nsumer-worker-0] .c.LoggingKafkaConsumerMessageDispatcher : <<consume kafka-message>>: topic=study-kafka, partition=0, offset=2, message=(key=study-kafka.1455117585220, value=hoge)
+[nio-8080-exec-5] org.horiga.study.kafka.HelloController   : Receiving message: fuga
+[ad | producer-1] o.h.s.k.producer.KafkaMessageProducer    : Published message(fuga). topic=study-kafka, partition=0, offset=3
+[nsumer-worker-0] .c.LoggingKafkaConsumerMessageDispatcher : <<consume kafka-message>>: topic=study-kafka, partition=0, offset=3, message=(key=study-kafka.1455117595587, value=fuga)
+```

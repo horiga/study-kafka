@@ -18,9 +18,6 @@ public class KafkaMessageProducer {
 	@Autowired
 	KafkaProducer<String, String> kafkaProducer;
 
-	@Value("${app.kafka.producer.numOfPartition:1}")
-	private int numOfPartition;
-
 	@Value("${app.kafka.topic:study-kafka}")
 	private String topic;
 
@@ -38,13 +35,14 @@ public class KafkaMessageProducer {
 				log.error("Failed to publish message. message={}", message, e);
 			} else {
 				log.info("Published message({}). topic={}, partition={}, offset={}", message,
-						recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset());
+					recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset());
 			}
 		}
 	}
 
 	public void publish(String message) {
-		kafkaProducer.send(new ProducerRecord<>(topic, message), new MessageCallback(message));
+		final String key = "study-kafka." + System.currentTimeMillis();
+		kafkaProducer.send(new ProducerRecord<>(topic, key, message), new MessageCallback(message));
 	}
 
 }
