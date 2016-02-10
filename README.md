@@ -27,7 +27,10 @@ $ bin/kafka-server-start.sh config/server.properties
 ```bash
 $ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic study-kafka
 Created topic "study-kafka".
+$ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 10 --topic kafka-partitions
+Created topic "kafka-partitions".
 $ bin/kafka-topics.sh --list --zookeeper localhost:2181
+kafka-partitions
 study-kafka
 ```
 
