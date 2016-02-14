@@ -18,7 +18,7 @@ public class KafkaMessageProducer {
 	@Autowired
 	KafkaProducer<String, String> kafkaProducer;
 
-	@Value("${app.kafka.topic:study-kafka}")
+	@Value("${app.kafka.topic:replication-topic}")
 	private String topic;
 
 	static final class MessageCallback implements Callback {

@@ -36,7 +36,7 @@ public class LoggingKafkaConsumerMessageDispatcher {
 	@Qualifier("consumer.study-kafka")
 	private ConsumerConnector consumerConnector;
 
-	@Value("${app.kafka.consumer.concurrency.num:1}")
+	@Value("${app.kafka.consumer.concurrency.num:10}")
 	private int concurrency;
 
 	@PostConstruct
@@ -52,7 +52,7 @@ public class LoggingKafkaConsumerMessageDispatcher {
 				log.info("<<consume kafka-message>>: topic={}, partition={}, offset={}, message=(key={}, value={})",
 					message.topic(), message.partition(), message.offset(), message.key(), message.message());
 
-		final TopicFilter filter = new Whitelist("study-kafka*");
+		final TopicFilter filter = new Whitelist("replication-topic*");
 		final Decoder<String> keyDecoder = new StringDecoder(null);
 		final Decoder<String> valueDecoder = new StringDecoder(null);
 
